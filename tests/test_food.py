@@ -13,6 +13,3 @@ def test_get_price_method():
     meal = Food('pizza', 7.99)
     assert meal.get_price() == 7.99
 
-def test_get_pall_method():
-    meal = Food('pizza', 7.99)
-    assert meal.get_all() == {'pizza': 7.99}

@@ -9,6 +9,4 @@ class Food:
 
     def get_price(self):
         return self.price
-
-    def get_all(self):
-        return {self.item: self.price}    
+   
