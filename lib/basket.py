@@ -1,9 +1,15 @@
 from datetime import datetime
 from datetime import timedelta
 from random import randint
+from os import getenv
+from dotenv import load_dotenv
+from food import Food
+from vonage import Vonage, Auth
+from vonage_sms import SmsMessage, SmsResponse
+
+load_dotenv()
 
 class Basket:
-
     def __init__(self):
         self.items = []
         self.checked_out = False
@@ -35,6 +41,22 @@ class Basket:
         delivery_time = checked_out + timedelta(minutes=time_for_delivery)
         delivery_time_str = datetime.strftime(delivery_time, "%H:%M")
         
-        confirmation_msg = f"Thank you! Your order was placed and will be delivered before {delivery_time_str}"
+        confirmation_msg = f"Thank you! Your order was placed and will be delivered before {delivery_time_str}. This is from Carlos"
+
+        secret = getenv('VONAGE_API_SECRET')
+        key = getenv('VONAGE_API_KEY')
+        recipient = getenv('RECIPIENT')
+        
+        
+        client = Vonage(Auth(api_key=key, api_secret=secret))
+        message = SmsMessage(
+        to=recipient,
+        from_="Carly B Trap Gaff",
+        text=confirmation_msg,
+        )
+        response: SmsResponse = client.sms.send(message)
+        print(response)
+        
         self.checked_out = True
         return confirmation_msg
+    
